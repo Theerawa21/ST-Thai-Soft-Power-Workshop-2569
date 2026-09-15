@@ -22,3 +22,7 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm test
+      - name: Smoke test deployed Apps Script API
+        run: |
+          curl -LfsS 'https://script.google.com/macros/s/AKfycbzu55ixmbX67s4gjgVjShwYyHtD37R1Xu1Ed-zvxJwVz6gfVDu1vx2L7RHT7No9ak1g/exec' -o /tmp/api.json
+          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('/tmp/api.json','utf8')); if(!r.ok || r.data?.status!=='online') { console.error(r); process.exit(1); } console.log(r);"
