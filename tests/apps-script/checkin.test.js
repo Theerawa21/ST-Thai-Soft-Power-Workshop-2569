@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
+import path from 'node:path';
 import vm from 'node:vm';
 
 function loadCheckIn() {
-  const code = fs.readFileSync(new URL('../../apps-script/CheckIn.gs', import.meta.url), 'utf8');
+  const code = fs.readFileSync(path.resolve(process.cwd(), 'apps-script/CheckIn.gs'), 'utf8');
   const sandbox = { console };
   vm.createContext(sandbox);
   vm.runInContext(code, sandbox);
