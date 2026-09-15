@@ -1,0 +1,11 @@
+{
+  "name": "st-thai-soft-power-workshop-2569",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/node/*.test.mjs",
+    "test:api": "node --test tests/node/api.test.mjs"
+  },
+  "engines": { "node": ">=20" }
+}
