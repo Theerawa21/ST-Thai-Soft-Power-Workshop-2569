@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#143c2b">
+  <title>ST Thai Soft Power Workshop 2569</title>
+  <meta name="description" content="ระบบลงทะเบียน Workshop Thai Soft Power สำหรับ Green Business Market ปีการศึกษา 2569">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./">
+        <span class="brand-mark">ST</span>
+        <span>ST Thai Soft Power Workshop 2569</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">🌿 Green Business Market 2569</span>
+          <h1>Workshop<br>Thai Soft Power</h1>
+          <p class="lead">จากอัตลักษณ์ไทย สู่แผนธุรกิจและผลิตภัณฑ์สร้างสรรค์ เรียนรู้จริง ลงมือทำจริง และพัฒนาไอเดียสู่สินค้าที่ขายได้จริง</p>
+          <div class="actions">
+            <a id="registerButton" class="btn btn-primary" href="register.html">สมัครเข้าร่วมกิจกรรม</a>
+            <a class="btn btn-secondary" href="status.html">ตรวจสอบสถานะ</a>
+          </div>
+          <div id="homeMessage" class="message" hidden></div>
+        </div>
+
+        <aside class="hero-card" aria-label="รายละเอียดกิจกรรม">
+          <h2 style="margin-top:0">รายละเอียดกิจกรรม</h2>
+          <div class="event-list">
+            <div class="event-row"><span class="event-icon">📅</span><div><strong>วันจันทร์ที่ 5 ตุลาคม 2569</strong><br><span>เวลา 08.30–15.00 น.</span></div></div>
+            <div class="event-row"><span class="event-icon">📍</span><div><strong>ห้องประชุมชั้น 5</strong><br><span>อาคารเซนต์เทเรซา</span></div></div>
+            <div class="event-row"><span class="event-icon">💰</span><div><strong>100 บาท/คน</strong><br><span>รวมอาหารกลางวัน อาหารว่าง และน้ำดื่ม</span></div></div>
+            <div class="event-row"><span class="event-icon">⏳</span><div><strong>หมดเขต 18 กันยายน 2569</strong><br><span>เต็มแล้วปิดรับสมัครทันที</span></div></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">สถานะการรับสมัคร</h2>
+        <div class="stat-grid" aria-live="polite">
+          <article class="stat"><div class="stat-label">ผู้สมัครทั้งหมด</div><div id="totalCount" class="stat-value">— / 150</div><div class="stat-hint">จำนวนรวมของกิจกรรม</div></article>
+          <article class="stat"><div class="stat-label">ที่นั่งคงเหลือ</div><div id="remainingCount" class="stat-value">—</div><div class="stat-hint">อัปเดตอัตโนมัติ</div></article>
+          <article class="stat"><div class="stat-label">วิทย์–คณิต</div><div id="scienceMathCount" class="stat-value">— / 50</div><div class="stat-hint">อยู่ภายในจำนวนรวม 150 คน</div></article>
+          <article class="stat"><div class="stat-label">ชำระเงินแล้ว</div><div id="paidCount" class="stat-value">—</div><div class="stat-hint">ยืนยันโดยฝ่ายวิชาการ</div></article>
+        </div>
+        <div id="registrationNotice" class="notice" hidden></div>
+
+        <div class="info-grid">
+          <article class="info-card"><h3>ตัวแทน Green Business Market</h3><p>แต่ละกลุ่มส่งตัวแทน 3–4 คน เพื่อพัฒนาแผนธุรกิจ สินค้า แบรนด์ ราคา และการขาย</p></article>
+          <article class="info-card"><h3>นักเรียนแผนวิทย์–คณิต</h3><p>เปิดรับนักเรียนที่สนใจเพิ่มเติมได้ไม่เกิน 50 คน ภายในจำนวนผู้เข้าร่วมรวม 150 คน</p></article>
+          <article class="info-card"><h3>หลังสมัคร</h3><p>ระบบจะสร้าง QR ประจำตัวสำหรับยืนยันการชำระเงิน และใช้ QR เดิมสำหรับ Check-in วันอบรม</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container">กิจกรรมความร่วมมือระหว่างโรงเรียนเซนต์เทเรซา และสถาบันการจัดการปัญญาภิวัฒน์ (PIM)</div></footer>
+  <script type="module" src="assets/js/home.js"></script>
+</body>
+</html>
