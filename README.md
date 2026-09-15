@@ -38,11 +38,13 @@ npm test
 
 ## Google Sheet + Apps Script setup
 
-1. สร้างหรือเลือก Google Sheet ที่จะใช้เป็นฐานข้อมูล
-2. เปิด `Extensions > Apps Script`
-3. สร้างไฟล์ตามชื่อในโฟลเดอร์ `apps-script/` และคัดลอกโค้ดทั้งหมด
-4. ใช้ค่า manifest จาก `apps-script/appsscript.json`
-5. รัน `setupSystem()` หนึ่งครั้ง ระบบจะสร้างชีต:
+1. ใช้ Google Sheet ที่กำหนดเป็นฐานข้อมูลกลาง
+2. Apps Script ใช้ **`Code.gs` เพียงไฟล์เดียว** จาก `apps-script/Code.gs`
+3. ตั้ง Script Properties:
+   - `SPREADSHEET_ID`
+   - `ADMIN_TOKEN`
+4. รัน `setupSystem()` หนึ่งครั้ง
+5. ระบบใช้ชีต:
    - `Registrations`
    - `Payments`
    - `Receipts`
@@ -50,21 +52,11 @@ npm test
    - `Admins`
    - `Settings`
    - `Logs`
-6. ตั้ง Admin token ใน Apps Script editor โดยรัน:
-
-```javascript
-configureAdminToken('ใส่รหัสลับที่ยาวอย่างน้อย20ตัวอักษรตรงนี้')
-```
-
-7. หากมีลิงก์ LINE กลุ่ม ให้แก้ค่า `LINE_GROUP_URL` ในชีต `Settings`
-8. Deploy > New deployment > Web app
+6. หากมีลิงก์ LINE กลุ่ม ให้แก้ค่า `LINE_GROUP_URL` ในชีต `Settings`
+7. Deploy > New deployment > Web app
    - Execute as: Me
    - Who has access: Anyone
-9. คัดลอก Web App URL ไปแทนค่าใน `assets/js/config.js`:
-
-```javascript
-API_URL: 'https://script.google.com/macros/s/.../exec'
-```
+8. Web App URL ปัจจุบันถูกเชื่อมไว้ใน `assets/js/config.js` แล้ว
 
 ## Admin workflow
 
