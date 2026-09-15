@@ -1,3 +1,8 @@
+function validateCheckInEligibility(paymentStatus) {
+  if (String(paymentStatus) !== 'PAID') return { ok: false, code: 'PAYMENT_REQUIRED' };
+  return { ok: true };
+}
+
 function checkInStudent(payload, options) {
   const admin = requireAdmin_(options);
   payload = payload || {};
@@ -6,9 +11,8 @@ function checkInStudent(payload, options) {
     : findBy_(APP.SHEETS.REGISTRATIONS, 'public_token', payload.public_token);
 
   if (!registration) throw apiError_('NOT_FOUND', 'ไม่พบข้อมูลผู้สมัคร');
-  if (String(registration.payment_status) !== 'PAID') {
-    throw apiError_('PAYMENT_REQUIRED', 'ยังไม่ได้ยืนยันการชำระเงิน');
-  }
+  const eligibility = validateCheckInEligibility(registration.payment_status);
+  if (!eligibility.ok) throw apiError_(eligibility.code, 'ยังไม่ได้ยืนยันการชำระเงิน');
 
   const existing = rowsAsObjects_(APP.SHEETS.CHECKIN).find(row =>
     String(row.registration_id) === String(registration.registration_id) && String(row.status) === 'CHECKED_IN'
@@ -16,6 +20,8 @@ function checkInStudent(payload, options) {
   if (existing) {
     return {
       registration_id: registration.registration_id,
+      student_name: `${registration.prefix}${registration.first_name} ${registration.last_name}`,
+      grade_room: `${registration.grade}/${registration.room}`,
       status: 'CHECKED_IN',
       already_checked_in: true,
       checkin_date: existing.checkin_date,
