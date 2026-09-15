@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
+import path from 'node:path';
 import vm from 'node:vm';
 
 function loadRegistration() {
-  const code = fs.readFileSync(new URL('../../apps-script/Registration.gs', import.meta.url), 'utf8');
+  const code = fs.readFileSync(path.resolve(process.cwd(), 'apps-script/Registration.gs'), 'utf8');
   const sandbox = {
     APP: { MAX_CAPACITY: 150, SCI_MATH_QUOTA: 50, REGISTRATION_PREFIX: 'GBM2569-' },
     console
