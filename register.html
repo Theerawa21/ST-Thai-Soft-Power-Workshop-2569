@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>สมัครอบรม | ST Thai Soft Power Workshop 2569</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<header class="site-header"><div class="container"><a class="brand" href="./"><span class="brand-mark">ST</span><span>ST Thai Soft Power Workshop 2569</span></a></div></header>
+<main>
+  <section class="page-head"><div class="narrow"><h1>สมัครเข้าร่วมกิจกรรม</h1><p>กรอกข้อมูลให้ครบถ้วน ระบบจะตรวจสอบจำนวนที่นั่งและสร้าง QR ประจำตัวหลังสมัครสำเร็จ</p></div></section>
+  <section class="section"><div class="narrow">
+    <form id="registrationForm" class="panel" novalidate>
+      <div id="formMessage" class="message" hidden></div>
+      <section class="form-section">
+        <h3>1. ข้อมูลนักเรียน</h3>
+        <div class="form-grid">
+          <div class="field"><label for="student_id">รหัสนักเรียน *</label><input id="student_id" name="student_id" required></div>
+          <div class="field"><label for="prefix">คำนำหน้า *</label><select id="prefix" name="prefix" required><option value="">เลือก</option><option>นาย</option><option>นางสาว</option></select></div>
+          <div class="field"><label for="first_name">ชื่อ *</label><input id="first_name" name="first_name" required></div>
+          <div class="field"><label for="last_name">นามสกุล *</label><input id="last_name" name="last_name" required></div>
+          <div class="field"><label for="nickname">ชื่อเล่น *</label><input id="nickname" name="nickname" required></div>
+          <div class="field"><label for="phone">เบอร์โทรศัพท์ *</label><input id="phone" name="phone" inputmode="tel" required></div>
+          <div class="field"><label for="grade">ระดับชั้น *</label><select id="grade" name="grade" required><option value="">เลือก</option><option>ม.4</option><option>ม.5</option><option>ม.6</option></select></div>
+          <div class="field"><label for="room">ห้อง *</label><input id="room" name="room" inputmode="numeric" required></div>
+          <div class="field"><label for="number">เลขที่ *</label><input id="number" name="number" inputmode="numeric" required></div>
+          <div class="field"><label for="program">แผนการเรียน *</label><input id="program" name="program" placeholder="เช่น วิทย์–คณิต" required></div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h3>2. ประเภทผู้สมัคร</h3>
+        <div class="radio-row">
+          <label class="choice"><input type="radio" name="registration_type" value="MARKET_REP" required><span><strong>ตัวแทน Green Business Market</strong><br><small>แต่ละกลุ่มส่งตัวแทน 3–4 คน</small></span></label>
+          <label class="choice"><input type="radio" name="registration_type" value="SCI_MATH" required><span><strong>นักเรียนแผนวิทย์–คณิตที่สนใจ</strong><br><small>รับไม่เกิน 50 คน ภายในจำนวนรวม 150 คน</small></span></label>
+        </div>
+      </section>
+
+      <section id="marketFields" class="form-section" hidden>
+        <h3>3. ข้อมูลกลุ่ม Green Business Market</h3>
+        <div class="form-grid">
+          <div class="field full"><label for="group_name">ชื่อกลุ่ม / ชื่อร้าน *</label><input id="group_name" name="group_name"></div>
+          <div class="field"><label for="product_type">ประเภทสินค้า *</label><select id="product_type" name="product_type"><option value="">เลือก</option><option>อาหาร</option><option>เครื่องดื่ม</option><option>ขนม</option></select></div>
+          <div class="field"><label for="product_name">ชื่อเมนู / แนวคิดสินค้า</label><input id="product_name" name="product_name"></div>
+          <div class="field full"><label for="soft_power_concept">อัตลักษณ์หรือแนวคิด Thai Soft Power</label><textarea id="soft_power_concept" name="soft_power_concept"></textarea></div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="notice">ค่าลงทะเบียน <strong>100 บาท/คน</strong> รวมอาหารกลางวัน อาหารว่าง และน้ำดื่ม การชำระเงินจะยืนยันโดยฝ่ายวิชาการหลังสแกน QR ประจำตัว</div>
+        <div class="actions"><button id="submitButton" class="btn btn-primary" type="submit">ยืนยันการสมัคร</button><a class="btn btn-secondary" href="./">กลับหน้าแรก</a></div>
+      </section>
+    </form>
+  </div></section>
+</main>
+<footer class="footer"><div class="container">โรงเรียนเซนต์เทเรซา × สถาบันการจัดการปัญญาภิวัฒน์ (PIM)</div></footer>
+<script type="module" src="assets/js/register.js"></script>
+</body></html>
