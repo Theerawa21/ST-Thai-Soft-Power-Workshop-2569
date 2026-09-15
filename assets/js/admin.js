@@ -4,6 +4,13 @@ import { formatMoney, getAdminToken, showMessage } from './ui.js';
 let lastDashboard = null;
 function saveToken(token) { sessionStorage.setItem('gbm_admin_token', token); }
 
+function appendTextCell(row, value) {
+  const cell = document.createElement('td');
+  cell.textContent = String(value ?? '');
+  row.appendChild(cell);
+  return cell;
+}
+
 export function renderDashboard(data) {
   lastDashboard = data;
   const map = {
@@ -14,16 +21,40 @@ export function renderDashboard(data) {
     '#adminAmount': formatMoney(data.paidAmount),
     '#adminCheckin': data.checkedIn
   };
-  Object.entries(map).forEach(([sel,val]) => { const el = document.querySelector(sel); if (el) el.textContent = val; });
+  Object.entries(map).forEach(([sel, val]) => {
+    const el = document.querySelector(sel);
+    if (el) el.textContent = val;
+  });
+
   const tbody = document.querySelector('#registrationsBody');
-  if (tbody) {
-    tbody.innerHTML = '';
-    data.registrations.forEach(r => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${r.registration_id}</td><td>${r.prefix}${r.first_name} ${r.last_name}</td><td>${r.grade}/${r.room}</td><td>${r.registration_type === 'SCI_MATH' ? 'วิทย์–คณิต' : 'ตัวแทนตลาด'}</td><td>${['PAID','CONFIRMED'].includes(r.payment_status) ? '<span class="status status--ok">ชำระแล้ว</span>' : '<span class="status status--pending">รอชำระ</span>'}</td><td><a class="table-link" href="scanner.html?id=${encodeURIComponent(r.registration_id)}">เปิดรายการ</a></td>`;
-      tbody.appendChild(tr);
-    });
-  }
+  if (!tbody) return;
+  tbody.replaceChildren();
+
+  data.registrations.forEach(r => {
+    const tr = document.createElement('tr');
+    appendTextCell(tr, r.registration_id);
+    appendTextCell(tr, `${r.prefix ?? ''}${r.first_name ?? ''} ${r.last_name ?? ''}`.trim());
+    appendTextCell(tr, `${r.grade ?? ''}/${r.room ?? ''}`);
+    appendTextCell(tr, r.registration_type === 'SCI_MATH' ? 'วิทย์–คณิต' : 'ตัวแทนตลาด');
+
+    const paymentCell = document.createElement('td');
+    const status = document.createElement('span');
+    const paid = ['PAID', 'CONFIRMED'].includes(r.payment_status);
+    status.className = `status ${paid ? 'status--ok' : 'status--pending'}`;
+    status.textContent = paid ? 'ชำระแล้ว' : 'รอชำระ';
+    paymentCell.appendChild(status);
+    tr.appendChild(paymentCell);
+
+    const actionCell = document.createElement('td');
+    const link = document.createElement('a');
+    link.className = 'table-link';
+    link.href = `scanner.html?id=${encodeURIComponent(String(r.registration_id ?? ''))}`;
+    link.textContent = 'เปิดรายการ';
+    actionCell.appendChild(link);
+    tr.appendChild(actionCell);
+
+    tbody.appendChild(tr);
+  });
 }
 
 async function loadDashboard() {
@@ -49,7 +80,9 @@ function exportCsv() {
   const blob = new Blob(['\ufeff' + rows.join('\n')], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'ST-Thai-Soft-Power-Workshop-2569.csv'; a.click();
+  a.href = url;
+  a.download = 'ST-Thai-Soft-Power-Workshop-2569.csv';
+  a.click();
   URL.revokeObjectURL(url);
 }
 
@@ -60,6 +93,9 @@ if (typeof document !== 'undefined') {
     loadDashboard();
   });
   document.querySelector('#exportCsv')?.addEventListener('click', exportCsv);
-  document.querySelector('#adminLogout')?.addEventListener('click', () => { sessionStorage.removeItem('gbm_admin_token'); location.reload(); });
+  document.querySelector('#adminLogout')?.addEventListener('click', () => {
+    sessionStorage.removeItem('gbm_admin_token');
+    location.reload();
+  });
   loadDashboard();
 }
