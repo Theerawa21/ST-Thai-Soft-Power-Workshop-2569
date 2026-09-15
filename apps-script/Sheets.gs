@@ -1,5 +1,9 @@
 function getSpreadsheet_() {
-  return SpreadsheetApp.getActiveSpreadsheet();
+  const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!spreadsheetId) {
+    throw new Error('ยังไม่ได้ตั้งค่า Script Property: SPREADSHEET_ID');
+  }
+  return SpreadsheetApp.openById(spreadsheetId);
 }
 
 function getSheet_(name) {
