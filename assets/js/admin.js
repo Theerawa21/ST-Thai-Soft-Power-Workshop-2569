@@ -1,4 +1,5 @@
 import { apiRequest } from './api.js';
+import { APP_CONFIG } from './config.js';
 import { formatMoney, showMessage } from './ui.js';
 
 function getToken() { return sessionStorage.getItem('gbm_admin_token') || ''; }
@@ -11,12 +12,12 @@ async function loadDashboard() {
     const { data } = await apiRequest('adminDashboard', {}, { adminToken: token });
     document.querySelector('#adminLogin').hidden = true;
     document.querySelector('#dashboardContent').hidden = false;
-    document.querySelector('#aTotal').textContent = `${data.total}/150`;
+    document.querySelector('#aTotal').textContent = `${data.total}/${APP_CONFIG.MAX_CAPACITY}`;
     document.querySelector('#aRemaining').textContent = data.remaining;
     document.querySelector('#aPaid').textContent = data.paid;
     document.querySelector('#aRevenue').textContent = formatMoney(data.totalRevenue);
-    document.querySelector('#aMarket').textContent = data.marketRepresentatives;
-    document.querySelector('#aScience').textContent = `${data.scienceMath}/50`;
+    document.querySelector('#aMarket').textContent = `${data.marketRepresentatives}/${APP_CONFIG.MARKET_REP_QUOTA}`;
+    document.querySelector('#aScience').textContent = `${data.scienceMath}/${APP_CONFIG.SCI_MATH_QUOTA}`;
     document.querySelector('#aUnpaid').textContent = data.unpaid;
     document.querySelector('#aCheckin').textContent = data.checkedIn;
     const tbody = document.querySelector('#recentRows');

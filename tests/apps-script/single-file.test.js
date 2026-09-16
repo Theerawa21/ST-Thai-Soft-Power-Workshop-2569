@@ -31,4 +31,20 @@ describe('single-file Apps Script backend', () => {
       expect(typeof sandbox[name], `${name} should exist in Code.gs`).toBe('function');
     });
   });
+
+  it('enforces the 200 total and 150 market representative limits', () => {
+    const code = fs.readFileSync(path.resolve(process.cwd(), 'apps-script/Code.gs'), 'utf8');
+    const sandbox = { console };
+    vm.createContext(sandbox);
+    vm.runInContext(code, sandbox);
+
+    expect(sandbox.validateCapacity(
+      { total: 199, marketRepresentatives: 150, scienceMath: 49 },
+      'MARKET_REP'
+    )).toEqual({ ok:false, code:'MARKET_REP_FULL' });
+    expect(sandbox.validateCapacity(
+      { total: 200, marketRepresentatives: 150, scienceMath: 50 },
+      'SCI_MATH'
+    )).toEqual({ ok:false, code:'CAPACITY_FULL' });
+  });
 });

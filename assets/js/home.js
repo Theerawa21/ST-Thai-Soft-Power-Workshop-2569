@@ -1,4 +1,5 @@
 import { apiRequest } from './api.js';
+import { APP_CONFIG } from './config.js';
 import { showMessage } from './ui.js';
 
 async function loadStatus() {
@@ -6,9 +7,9 @@ async function loadStatus() {
   const notice = document.querySelector('#registrationNotice');
   try {
     const { data } = await apiRequest('eventStatus');
-    document.querySelector('#totalCount').textContent = `${data.total ?? 0}/150`;
+    document.querySelector('#totalCount').textContent = `${data.total ?? 0}/${APP_CONFIG.MAX_CAPACITY}`;
     document.querySelector('#remainingCount').textContent = data.remaining ?? 0;
-    document.querySelector('#scienceMathCount').textContent = `${data.scienceMath ?? 0}/50`;
+    document.querySelector('#scienceMathCount').textContent = `${data.scienceMath ?? 0}/${APP_CONFIG.SCI_MATH_QUOTA}`;
     document.querySelector('#paidCount').textContent = data.paid ?? 0;
 
     const isOpen = Boolean(data.registrationOpen) && Number(data.remaining) > 0;

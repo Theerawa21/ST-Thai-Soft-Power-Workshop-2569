@@ -1,6 +1,7 @@
 const APP = Object.freeze({
   TIMEZONE: 'Asia/Bangkok',
-  MAX_CAPACITY: 150,
+  MAX_CAPACITY: 200,
+  MARKET_REP_QUOTA: 150,
   SCI_MATH_QUOTA: 50,
   FEE: 100,
   REGISTRATION_PREFIX: 'GBM2569-',
@@ -44,7 +45,8 @@ function defaultSettings_() {
     START_TIME: '08:30',
     END_TIME: '15:00',
     VENUE: 'ห้องประชุมชั้น 5 อาคารเซนต์เทเรซา',
-    MAX_CAPACITY: '150',
+    MAX_CAPACITY: '200',
+    MARKET_REP_QUOTA: '150',
     SCI_MATH_QUOTA: '50',
     FEE: '100',
     REGISTRATION_DEADLINE: '2026-09-18',

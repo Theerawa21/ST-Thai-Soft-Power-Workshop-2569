@@ -1,6 +1,7 @@
 const APP = Object.freeze({
   TIMEZONE: 'Asia/Bangkok',
-  MAX_CAPACITY: 150,
+  MAX_CAPACITY: 200,
+  MARKET_REP_QUOTA: 150,
   SCI_MATH_QUOTA: 50,
   FEE: 100,
   REGISTRATION_PREFIX: 'GBM2569-',
@@ -44,7 +45,8 @@ function defaultSettings_() {
     START_TIME: '08:30',
     END_TIME: '15:00',
     VENUE: 'ห้องประชุมชั้น 5 อาคารเซนต์เทเรซา',
-    MAX_CAPACITY: '150',
+    MAX_CAPACITY: '200',
+    MARKET_REP_QUOTA: '150',
     SCI_MATH_QUOTA: '50',
     FEE: '100',
     REGISTRATION_DEADLINE: '2026-09-18',
@@ -216,6 +218,9 @@ function logAction_(actor, action, entityType, entityId, details) {
 
 function validateCapacity(counts, registrationType) {
   if (Number(counts.total) >= APP.MAX_CAPACITY) return { ok: false, code: 'CAPACITY_FULL' };
+  if (registrationType === 'MARKET_REP' && Number(counts.marketRepresentatives) >= APP.MARKET_REP_QUOTA) {
+    return { ok: false, code: 'MARKET_REP_FULL' };
+  }
   if (registrationType === 'SCI_MATH' && Number(counts.scienceMath) >= APP.SCI_MATH_QUOTA) {
     return { ok: false, code: 'SCI_MATH_FULL' };
   }
@@ -231,6 +236,7 @@ function getRegistrationCounts_() {
   const rows = getActiveRegistrations_();
   return {
     total: rows.length,
+    marketRepresentatives: rows.filter(row => String(row.registration_type) === 'MARKET_REP').length,
     scienceMath: rows.filter(row => String(row.registration_type) === 'SCI_MATH').length,
     paid: rows.filter(row => ['PAID','CONFIRMED','CHECKED_IN'].includes(String(row.payment_status))).length
   };
@@ -240,13 +246,16 @@ function getEventStatus() {
   const settings = getSettings_();
   const counts = getRegistrationCounts_();
   const maxCapacity = Number(settings.MAX_CAPACITY || APP.MAX_CAPACITY);
-  const quota = Number(settings.SCI_MATH_QUOTA || APP.SCI_MATH_QUOTA);
+  const marketQuota = Number(settings.MARKET_REP_QUOTA || APP.MARKET_REP_QUOTA);
+  const scienceMathQuota = Number(settings.SCI_MATH_QUOTA || APP.SCI_MATH_QUOTA);
   const open = String(settings.REGISTRATION_OPEN || 'TRUE').toUpperCase() === 'TRUE';
   return {
     total: counts.total,
     remaining: Math.max(0, maxCapacity - counts.total),
+    marketRepresentatives: counts.marketRepresentatives,
+    marketRepresentativesRemaining: Math.max(0, marketQuota - counts.marketRepresentatives),
     scienceMath: counts.scienceMath,
-    scienceMathRemaining: Math.max(0, quota - counts.scienceMath),
+    scienceMathRemaining: Math.max(0, scienceMathQuota - counts.scienceMath),
     paid: counts.paid,
     registrationOpen: open && counts.total < maxCapacity,
     fee: Number(settings.FEE || APP.FEE)
@@ -317,13 +326,16 @@ function registerStudent(payload) {
 
     const counts = {
       total: active.length,
+      marketRepresentatives: active.filter(row => String(row.registration_type) === 'MARKET_REP').length,
       scienceMath: active.filter(row => String(row.registration_type) === 'SCI_MATH').length
     };
     const capacity = validateCapacity(counts, String(payload.registration_type));
     if (!capacity.ok) {
       const message = capacity.code === 'SCI_MATH_FULL'
         ? 'โควตานักเรียนวิทย์–คณิตเต็มแล้ว'
-        : 'จำนวนผู้สมัครเต็มแล้ว';
+        : capacity.code === 'MARKET_REP_FULL'
+          ? 'โควตาตัวแทน Green Business Market เต็มแล้ว'
+          : 'จำนวนผู้สมัครเต็มแล้ว';
       throw apiError_(capacity.code, message);
     }
 
