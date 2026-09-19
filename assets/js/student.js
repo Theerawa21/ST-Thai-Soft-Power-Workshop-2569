@@ -27,7 +27,7 @@ async function loadStudent() {
     statusEl.classList.toggle('pending', !paid);
 
     const receiptNumber = document.querySelector('#receiptNumber');
-    receiptNumber.textContent = data.receipt_number || 'ยังไม่มี';
+    receiptNumber.textContent = data.receipt_number ? r.registration_id : 'ยังไม่มี';
     const receiptButton = document.querySelector('#receiptButton');
     if (data.receipt_number) {
       const receiptUrl = new URL('receipt.html', window.location.href);
