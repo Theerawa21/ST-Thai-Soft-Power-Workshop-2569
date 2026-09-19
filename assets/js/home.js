@@ -6,7 +6,7 @@ async function loadStatus() {
   const notice = document.querySelector('#registrationNotice');
   try {
     const { data } = await apiRequest('eventStatus');
-    document.querySelector('#totalCount').textContent = `${data.total ?? 0}/150`;
+    document.querySelector('#totalCount').textContent = `${data.total ?? 0}/200`;
     document.querySelector('#remainingCount').textContent = data.remaining ?? 0;
     document.querySelector('#scienceMathCount').textContent = `${data.scienceMath ?? 0}/50`;
     document.querySelector('#paidCount').textContent = data.paid ?? 0;
