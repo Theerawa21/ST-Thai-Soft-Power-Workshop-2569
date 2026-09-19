@@ -12,13 +12,31 @@ describe('validateRegistrationForm', () => {
     expect(validateRegistrationForm(base).ok).toBe(true);
   });
 
-  it('requires market representatives to include group and product type', () => {
-    const result = validateRegistrationForm({ ...base, registration_type: 'MARKET_REP', group_name: '', product_type: '' });
-    expect(result.ok).toBe(false);
+  it('requires only the group/shop name for market representatives', () => {
+    const missingGroup = validateRegistrationForm({
+      ...base,
+      registration_type: 'MARKET_REP',
+      group_name: ''
+    });
+    expect(missingGroup.ok).toBe(false);
+
+    const complete = validateRegistrationForm({
+      ...base,
+      registration_type: 'MARKET_REP',
+      group_name: 'Thai Taste'
+    });
+    expect(complete.ok).toBe(true);
   });
 
-  it('accepts a complete market representative registration', () => {
-    const result = validateRegistrationForm({ ...base, registration_type: 'MARKET_REP', group_name: 'Thai Taste', product_type: 'อาหาร' });
+  it('does not require product details from market representatives', () => {
+    const result = validateRegistrationForm({
+      ...base,
+      registration_type: 'MARKET_REP',
+      group_name: 'Thai Taste',
+      product_type: '',
+      product_name: '',
+      soft_power_concept: ''
+    });
     expect(result.ok).toBe(true);
   });
 });
