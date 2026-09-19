@@ -7,10 +7,8 @@ export function validateRegistrationForm(data) {
   const missing = REQUIRED.filter(key => !String(data[key] ?? '').trim());
   if (missing.length) return { ok:false, message:'กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบถ้วน' };
   if (!['MARKET_REP','SCI_MATH'].includes(data.registration_type)) return { ok:false, message:'กรุณาเลือกประเภทผู้สมัคร' };
-  if (data.registration_type === 'MARKET_REP') {
-    if (!String(data.group_name || '').trim() || !String(data.product_type || '').trim()) {
-      return { ok:false, message:'ตัวแทน Green Business Market ต้องระบุชื่อกลุ่มและประเภทสินค้า' };
-    }
+  if (data.registration_type === 'MARKET_REP' && !String(data.group_name || '').trim()) {
+    return { ok:false, message:'ตัวแทน Green Business Market กรุณาระบุชื่อกลุ่ม / ชื่อร้าน' };
   }
   return { ok:true };
 }
@@ -31,7 +29,6 @@ if (form) {
       const show = event.target.value === 'MARKET_REP';
       marketFields.hidden = !show;
       document.querySelector('#group_name').required = show;
-      document.querySelector('#product_type').required = show;
     }
   });
 
